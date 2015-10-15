@@ -1,0 +1,92 @@
+
+1. 首先定义一个最简单的类：
+
+
+示例 1:
+
+#+BEGIN_SRC python
+class Person:
+  # 相当于一个占位符，它几乎没有任何作用
+  # 因为 Python 是靠缩进来区分每一个代码结构（如 while, if-else, 类，函数等）的边界的，
+  # 因此如果要定义一个 body 为空的类时，就需要在类的
+  # body 里写上一个 pass，这样就相当于这个类的 body 是
+  # 空的，这个类也就是一个最简单的类
+  pass
+
+p1 = Person()  # 创建 Person 类的一个对象
+p1.name = "David"  # 可以在类的外面直接给这个类的某个对象新增一个属性，这里给 p1 增加了一个叫 "name" 的属性，并且赋值为 "David"
+
+p2 = Person()  # 再创建 Person 类的一个对象
+p2.name = "Jack"  # 给 p2 增加了一个叫 "name" 的属性，并且赋值为 "David"
+p2.age = 30       # 给 p2 增加了一个叫 "age" 的属性，并且赋值为 30
+
+print p1.name  # => David
+print p2.name  # => Jack
+print p2.age   # => 30
+#+END_SRC
+
+
+2. 现在，加入我想在创建 Person 类的对象的时候，就给新创建出来的这个对象增加一些属性，例如：
+
+#+BEGIN_SRC python
+p1 = Person("David", 20)
+p2 = Person("Jack", 30)
+
+print p1.name  # => David
+print p1.age   # => 20
+
+print p2.name  # => Jack
+print p2.age   # => 30
+#+END_SRC
+
+那么这个类应该如何定义呢？
+
+看下面：
+
+示例 2:
+
+#+BEGIN_SRC python
+01. class Person:
+02.   def __init__(self, x, y):
+03.     self.name = x
+04.     self.age = y
+05.
+06. p1 = Person("David", 20)
+07. p2 = Person("Jack", 30)
+08.
+09. print p1.name  # => David
+10. print p1.age   # => 20
+11. 
+12. print p2.name  # => Jack
+13. print p2.age   # => 30
+#+END_SRC
+
+上面的例子中，=__init__= 方法是一个特殊的方法，当 Person 类的一个对象被创建的时候
+（也就是第 06 和 07 行），=__init__= 方法会被 Python 自定调用。这个方法的第一个参数
+叫做 =self= ，在 06 行创建 =p1= 的时候，这个 =self= 指的就是 =p1=, 因此此时，~self.name = x~ 
+就相当于 ~p1.name = x~ ，其实也就是相当于示例 1 中的 ~p1.name = "David"~ ；
+在 07 行创建 =p2= 的时候，这个 =self= 指的就是 =p2=, 因此此时，~self.name = x~ 
+就相当于 ~p2.name = x~ ，其实也就是相当于示例 1 中的 ~p2.name = "Jack"~ ；
+
+3. 下面给示例 2 中的 Person 类增加一个打印自身信息的方法，效果如下：
+
+#+BEGIN_SRC python
+p = Person("David", 20)
+p.say_hi()  # => 输出："Hi, my name is Daivd, and I'm 20 years old."
+#+END_SRC
+
+那么现在 Person 类应该怎么写呢？
+
+示例 3：
+
+#+BEGIN_SRC python
+class Person:
+  def __init__(self, name, age):   # 此处表示姓名和年龄的变量可以取和属性相同的名字，不会冲突，这里的 __init__ 方法和示例 2 中的完全是等价的。
+    self.name = name
+    self.age = age
+  def say_hi(self):
+    print "Hi, my name is " + self.name + ", and I'm " + str(self.age) + " years old."
+
+p = Person("David", 20)
+p.say_hi()  # => 输出："Hi, my name is Daivd, and I'm 20 years old."
+#+END_SRC
